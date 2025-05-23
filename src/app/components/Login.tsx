@@ -4,7 +4,6 @@ import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { FirebaseService } from "../services/firebase";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const Login: React.FC = () => {
   const { setUser } = useApp();

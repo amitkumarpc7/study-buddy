@@ -14,7 +14,6 @@ import {
   serverTimestamp,
   onSnapshot,
   getDoc,
-  orderBy,
 } from "firebase/firestore";
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 import { auth, db } from "../firebaseconfig";
