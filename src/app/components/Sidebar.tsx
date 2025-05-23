@@ -12,19 +12,9 @@ import {
   Moon,
   Sun,
 } from "lucide-react";
-import { FirebaseService } from "../services/firebase";
-
-
-const signOut = async () => {
-  try {
-    await FirebaseService.signOut();
-  } catch (error) {
-    console.error("Error signing out:", error);
-  }
-};
 
 const Sidebar: React.FC = () => {
-  const { user, darkMode, toggleDarkMode } = useApp();
+  const { user, darkMode, toggleDarkMode, signOut } = useApp();
   const pathname = usePathname();
 
   const navigation = [

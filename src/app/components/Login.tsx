@@ -83,25 +83,6 @@ const Login: React.FC = () => {
     }
   };
 
-  const demoLogin = async () => {
-    setFormData({
-      ...formData,
-      email: "demo@example.com",
-      password: "password",
-    });
-    setLoading(true);
-    try {
-      const user = await FirebaseService.signIn("demo@example.com", "password");
-      setUser(user);
-      router.push("/dashboard");
-    } catch (err: unknown) {
-      const errorObj = err as { message?: string };
-      setError(errorObj.message || "Demo login failed");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4">
       <div className="max-w-md w-full bg-white dark:bg-gray-800 rounded-lg shadow-xl p-8">
@@ -253,14 +234,6 @@ const Login: React.FC = () => {
           </div>
 
           <div className="mt-6 space-y-3">
-            {/* <button
-              onClick={demoLogin}
-              disabled={loading}
-              className="w-full py-3 px-4 bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-700 dark:text-gray-300 font-medium rounded-lg transition-colors disabled:opacity-50"
-            >
-              Try Demo Account
-            </button> */}
-
             <p className="text-center text-sm text-gray-600 dark:text-gray-400">
               {isLogin
                 ? "Don't have an account? "
@@ -276,12 +249,6 @@ const Login: React.FC = () => {
                 {isLogin ? "Sign up" : "Sign in"}
               </button>
             </p>
-
-            {/* <div className="text-center text-xs text-gray-500 dark:text-gray-400 mt-4">
-              <Link href="/forgot-password" className="hover:underline">
-                Forgot password?
-              </Link>
-            </div> */}
           </div>
         </div>
       </div>

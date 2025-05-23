@@ -15,6 +15,7 @@ import {
   serverTimestamp,
   onSnapshot,
   getDoc,
+  orderBy,
 } from "firebase/firestore";
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 import { auth, db } from "../firebaseconfig";
@@ -151,14 +152,13 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const signOut = async () => {
     try {
+      setLoading(true);
       await firebaseSignOut(auth);
-      setUser(null);
-      setCourses([]);
-      setNotes([]);
-      setDeadlines([]);
+      //   setUser(null);
       router.push("/");
-    } catch (error) {
+    } catch (error: unknown) {
       console.error("Error signing out:", error);
+      setLoading(false);
     }
   };
 
