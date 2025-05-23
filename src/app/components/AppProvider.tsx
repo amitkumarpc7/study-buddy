@@ -19,6 +19,12 @@ import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 import { auth, db } from "../firebaseconfig";
 import { CourseColors } from "../constants";
 
+type FirestoreDeadlineUpdate = {
+  [K in keyof Omit<Deadline, "dueDate">]?: Deadline[K];
+} & {
+  dueDate?: string;
+};
+
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -253,10 +259,11 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const updateDeadline = async (id: string, updates: Partial<Deadline>) => {
     try {
-      const dataToUpdate: any = { ...updates };
-      if (updates.dueDate) {
-        dataToUpdate.dueDate = updates.dueDate.toISOString();
-      }
+      const { dueDate, ...restUpdates } = updates;
+      const dataToUpdate: FirestoreDeadlineUpdate = {
+        ...restUpdates,
+        ...(dueDate && { dueDate: dueDate.toISOString() }),
+      };
       await updateDoc(doc(db, "deadlines", id), dataToUpdate);
     } catch (error) {
       console.error("Error updating deadline:", error);
