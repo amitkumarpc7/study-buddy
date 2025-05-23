@@ -14,6 +14,7 @@ import {
   doc,
   serverTimestamp,
   onSnapshot,
+  getDoc,
 } from "firebase/firestore";
 import { onAuthStateChanged, signOut as firebaseSignOut } from "firebase/auth";
 import { auth, db } from "../firebaseconfig";
@@ -32,14 +33,19 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   const [loading, setLoading] = useState(true);
   const [isInitialized, setIsInitialized] = useState(false);
 
-  // Initialize dark mode from localStorage
+  // Initialize dark mode from localStorage and system preference
   useEffect(() => {
     const savedTheme = localStorage.getItem("theme");
-    if (
-      savedTheme === "dark" ||
-      (!savedTheme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-    ) {
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
       setDarkMode(true);
+      document.documentElement.classList.add("dark");
+    } else {
+      setDarkMode(false);
+      document.documentElement.classList.remove("dark");
     }
     setIsInitialized(true);
   }, []);
@@ -63,13 +69,20 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       if (firebaseUser) {
-        const userData: User = {
+        // Get user data from Firestore
+        const userDoc = await getDoc(doc(db, "users", firebaseUser.uid));
+        const userData = userDoc.data();
+
+        const userDataToSet: User = {
           id: firebaseUser.uid,
           email: firebaseUser.email || "",
           name:
-            firebaseUser.displayName || firebaseUser.email?.split("@")[0] || "",
+            userData?.name ||
+            firebaseUser.displayName ||
+            firebaseUser.email?.split("@")[0] ||
+            "",
         };
-        setUser(userData);
+        setUser(userDataToSet);
         setupRealtimeListeners(firebaseUser.uid);
       } else {
         setUser(null);
@@ -133,7 +146,7 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
+    setDarkMode((prev) => !prev);
   };
 
   const signOut = async () => {

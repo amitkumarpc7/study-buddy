@@ -5,8 +5,6 @@ import { useApp } from "../context/AppContext";
 import { FirebaseService } from "../services/firebase";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../firebaseconfig";
 
 const Login: React.FC = () => {
   const { setUser } = useApp();
@@ -29,17 +27,11 @@ const Login: React.FC = () => {
 
     try {
       if (isLogin) {
-        const userCredential = await signInWithEmailAndPassword(
-          auth,
+        const user = await FirebaseService.signIn(
           formData.email,
           formData.password
         );
-        const user = userCredential.user;
-        setUser({
-          id: user.uid,
-          email: user.email || "",
-          name: user.displayName || user.email?.split("@")[0] || "",
-        });
+        setUser(user);
         router.push("/dashboard");
       } else {
         if (formData.password !== formData.confirmPassword) {
