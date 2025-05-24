@@ -1,8 +1,5 @@
-// src/constants.ts
-
 import { Course, Deadline, Note } from "./types";
 
-// Available colors for courses
 export const CourseColors = [
   "bg-blue-500",
   "bg-green-500",
@@ -23,7 +20,6 @@ export const CourseColors = [
   "bg-rose-500",
 ] as const;
 
-// Priority options for deadlines
 export const PriorityOptions = [
   {
     value: "low",
@@ -43,22 +39,20 @@ export const PriorityOptions = [
   },
 ] as const;
 
-// Default course data for initialization
 export const DEFAULT_COURSE: Omit<Course, "id" | "createdAt"> = {
   name: "",
   description: "",
   progress: 0,
   color: CourseColors[0],
+  url: "",
 };
 
-// Default note data for initialization
 export const DEFAULT_NOTE: Omit<Note, "id" | "createdAt" | "updatedAt"> = {
   courseId: "",
   title: "",
   content: "",
 };
 
-// Default deadline data for initialization
 export const DEFAULT_DEADLINE: Omit<Deadline, "id"> = {
   courseId: "",
   title: "",
@@ -68,7 +62,6 @@ export const DEFAULT_DEADLINE: Omit<Deadline, "id"> = {
   priority: "medium",
 };
 
-// Status colors for deadlines
 export const DeadlineStatusColors = {
   completed:
     "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
@@ -78,7 +71,6 @@ export const DeadlineStatusColors = {
   upcoming: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
 };
 
-// Navigation items for sidebar
 export const NAV_ITEMS = [
   { id: "dashboard", label: "Dashboard", icon: "Home" },
   { id: "courses", label: "Courses", icon: "BookOpen" },
@@ -86,7 +78,6 @@ export const NAV_ITEMS = [
   { id: "deadlines", label: "Deadlines", icon: "Calendar" },
 ] as const;
 
-// Date format options
 export const DATE_FORMATS = {
   short: "MMM d, yyyy",
   long: "EEEE, MMMM d, yyyy",

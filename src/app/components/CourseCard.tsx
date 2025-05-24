@@ -1,5 +1,5 @@
 import React from "react";
-import { Edit2, Trash2 } from "lucide-react";
+import { Edit2, Trash2, ArrowUpRight } from "lucide-react";
 import { Course } from "../types";
 
 interface CourseCardProps {
@@ -40,9 +40,23 @@ const CourseCard: React.FC<CourseCardProps> = ({
         </div>
       </div>
 
-      <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-        {course.name}
-      </h3>
+      <div className="flex items-center mb-2 gap-2">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
+          {course.name}
+        </h3>
+        <a
+          href={
+            course.url.startsWith("http") ? course.url : `https://${course.url}`
+          }
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-gray-500 hover:text-blue-500"
+          title="Go to course"
+        >
+          <ArrowUpRight size={18} />
+        </a>
+      </div>
+
       <p className="text-gray-600 dark:text-gray-300 text-sm mb-4">
         {course.description}
       </p>

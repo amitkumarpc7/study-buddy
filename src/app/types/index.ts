@@ -4,6 +4,7 @@ export interface Course {
   description: string;
   progress: number;
   color: string;
+  url:string;
   createdAt: Date;
 }
 

@@ -123,12 +123,9 @@ const NotesPage: React.FC = () => {
               </p>
 
               <div className="text-gray-700 dark:text-gray-300 text-sm mb-4 line-clamp-3">
-                {note.content.substring(0, 150)}...
+                {note.content.length>150?`{note.content.substring(0, 150)}...`:note.content}
+                
               </div>
-
-              <p className="text-xs text-gray-500 dark:text-gray-400">
-                Updated {new Date(note.updatedAt).toLocaleDateString()}
-              </p>
             </div>
           );
         })}

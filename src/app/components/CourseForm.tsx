@@ -1,15 +1,18 @@
+
 import React, { useState } from "react";
 
 interface CourseFormProps {
   course?: {
     name: string;
     description: string;
+    url:string;
     progress: number;
   } | null;
   onSave: (data: {
     name: string;
     description: string;
     progress: number;
+    url:string;
   }) => void;
   onCancel: () => void;
 }
@@ -23,6 +26,7 @@ const CourseForm: React.FC<CourseFormProps> = ({
     name: course?.name || "",
     description: course?.description || "",
     progress: course?.progress || 0,
+    url: course?.url || "",
   });
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -46,6 +50,20 @@ const CourseForm: React.FC<CourseFormProps> = ({
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
             placeholder="Enter course name"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+            Course Link
+          </label>
+          <input
+            type="text"
+            value={formData.url}
+            onChange={(e) => setFormData({ ...formData, url: e.target.value })}
+            className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
+            placeholder="Enter course link"
             required
           />
         </div>

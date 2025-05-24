@@ -12,33 +12,33 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onCancel }) => {
   const [content, setContent] = useState(note?.content || "");
   const [isPreview, setIsPreview] = useState(false);
 
-  const formatText = (format: string) => {
-    const textarea = document.getElementById(
-      "note-content"
-    ) as HTMLTextAreaElement;
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-    const selectedText = content.substring(start, end);
+  // const formatText = (format: string) => {
+  //   const textarea = document.getElementById(
+  //     "note-content"
+  //   ) as HTMLTextAreaElement;
+  //   const start = textarea.selectionStart;
+  //   const end = textarea.selectionEnd;
+  //   const selectedText = content.substring(start, end);
 
-    let formattedText = "";
-    switch (format) {
-      case "bold":
-        formattedText = `**${selectedText}**`;
-        break;
-      case "italic":
-        formattedText = `*${selectedText}*`;
-        break;
-      case "heading":
-        formattedText = `# ${selectedText}`;
-        break;
-      default:
-        formattedText = selectedText;
-    }
+  //   let formattedText = "";
+  //   switch (format) {
+  //     case "bold":
+  //       formattedText = `**${selectedText}**`;
+  //       break;
+  //     case "italic":
+  //       formattedText = `*${selectedText}*`;
+  //       break;
+  //     case "heading":
+  //       formattedText = `# ${selectedText}`;
+  //       break;
+  //     default:
+  //       formattedText = selectedText;
+  //   }
 
-    const newContent =
-      content.substring(0, start) + formattedText + content.substring(end);
-    setContent(newContent);
-  };
+  //   const newContent =
+  //     content.substring(0, start) + formattedText + content.substring(end);
+  //   setContent(newContent);
+  // };
 
   const renderMarkdown = (text: string) => {
     return text
@@ -62,7 +62,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onCancel }) => {
       </div>
 
       <div className="mb-4 flex gap-2">
-        <button
+        {/* <button
           onClick={() => formatText("bold")}
           className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm"
         >
@@ -79,7 +79,7 @@ const NoteEditor: React.FC<NoteEditorProps> = ({ note, onSave, onCancel }) => {
           className="px-3 py-1 bg-gray-200 dark:bg-gray-700 rounded text-sm"
         >
           H
-        </button>
+        </button> */}
         <button
           onClick={() => setIsPreview(!isPreview)}
           className="px-3 py-1 bg-blue-500 text-white rounded text-sm ml-auto"
