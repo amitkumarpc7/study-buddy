@@ -156,7 +156,7 @@ const Dashboard: React.FC = () => {
                     {note.title}
                   </p>
                   <p className="text-sm text-gray-600 dark:text-gray-300">
-                    {new Date(note.updatedAt).toLocaleDateString()}
+                    {/* {new Date(note.updatedAt).toLocaleDateString()} */}
                   </p>
                 </div>
               ))

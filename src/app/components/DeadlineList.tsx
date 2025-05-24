@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Clock, AlertCircle, CheckCircle, Plus, Trash2 } from "lucide-react";
+import {
+  Clock,
+  AlertCircle,
+  CheckCircle,
+  Plus,
+  Trash2,
+  Edit2,
+} from "lucide-react";
 import { useApp } from "../context/AppContext";
 import AddDeadlineForm from "./AddDeadlineForm";
 import { Deadline } from "../types";
@@ -7,6 +14,7 @@ import { Deadline } from "../types";
 const DeadlineList: React.FC = () => {
   const { deadlines, courses, updateDeadline, deleteDeadline } = useApp();
   const [showAddForm, setShowAddForm] = useState(false);
+  const [editingDeadline, setEditingDeadline] = useState<Deadline | null>(null);
 
   const sortedDeadlines = [...deadlines].sort(
     (a, b) => new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
@@ -60,6 +68,12 @@ const DeadlineList: React.FC = () => {
       </div>
 
       {showAddForm && <AddDeadlineForm onClose={() => setShowAddForm(false)} />}
+      {editingDeadline && (
+        <AddDeadlineForm
+          deadline={editingDeadline}
+          onClose={() => setEditingDeadline(null)}
+        />
+      )}
 
       <div className="space-y-3">
         {sortedDeadlines.map((deadline) => {
@@ -113,6 +127,13 @@ const DeadlineList: React.FC = () => {
                   >
                     {deadline.completed ? "Completed" : "Mark Done"}
                   </button>
+                  <button
+                    onClick={() => setEditingDeadline(deadline)}
+                    className="text-gray-400 hover:text-blue-500"
+                  >
+                    <Edit2 size={16} />
+                  </button>
+
                   <button
                     onClick={() => deleteDeadline(deadline.id)}
                     className="text-gray-400 hover:text-red-500"

@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useApp } from "../context/AppContext";
+import { Deadline } from "../types";
 
 interface AddDeadlineFormProps {
   onClose: () => void;
+  deadline?: Deadline;
 }
 
-const AddDeadlineForm: React.FC<AddDeadlineFormProps> = ({ onClose }) => {
-  const { courses, addDeadline } = useApp();
+const AddDeadlineForm: React.FC<AddDeadlineFormProps> = ({
+  onClose,
+  deadline,
+}) => {
+  const { courses, addDeadline, updateDeadline } = useApp();
   const [formData, setFormData] = useState({
     courseId: "",
     title: "",
@@ -15,22 +20,40 @@ const AddDeadlineForm: React.FC<AddDeadlineFormProps> = ({ onClose }) => {
     priority: "medium" as "low" | "medium" | "high",
   });
 
+  useEffect(() => {
+    if (deadline) {
+      setFormData({
+        courseId: deadline.courseId,
+        title: deadline.title,
+        description: deadline.description,
+        dueDate: new Date(deadline.dueDate).toISOString().split("T")[0],
+        priority: deadline.priority,
+      });
+    }
+  }, [deadline]);
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!formData.courseId || !formData.title || !formData.dueDate) return;
 
-    addDeadline({
+    const deadlineData = {
       ...formData,
       dueDate: new Date(formData.dueDate),
-      completed: false,
-    });
+      completed: deadline?.completed || false,
+    };
+
+    if (deadline) {
+      updateDeadline(deadline.id, deadlineData);
+    } else {
+      addDeadline(deadlineData);
+    }
     onClose();
   };
 
   return (
     <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6">
       <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
-        Add New Deadline
+        {deadline ? "Edit Deadline" : "Add New Deadline"}
       </h3>
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -89,7 +112,7 @@ const AddDeadlineForm: React.FC<AddDeadlineFormProps> = ({ onClose }) => {
               Due Date
             </label>
             <input
-              type="datetime-local"
+              type="date"
               value={formData.dueDate}
               onChange={(e) =>
                 setFormData({ ...formData, dueDate: e.target.value })
@@ -125,7 +148,7 @@ const AddDeadlineForm: React.FC<AddDeadlineFormProps> = ({ onClose }) => {
             type="submit"
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            Add Deadline
+            {deadline ? "Update Deadline" : "Add Deadline"}
           </button>
           <button
             type="button"
