@@ -3,6 +3,7 @@ import { Plus, Edit2, Trash2, FileText } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import NoteEditor from "./NoteEditor";
 import { Note } from "../types";
+import toast from "react-hot-toast";
 
 const NotesPage: React.FC = () => {
   const { notes, courses, addNote, updateNote, deleteNote } = useApp();
@@ -14,20 +15,37 @@ const NotesPage: React.FC = () => {
     ? notes.filter((note) => note.courseId === selectedCourse)
     : notes;
 
-  const handleSaveNote = (title: string, content: string) => {
-    if (editingNote) {
-      updateNote(editingNote.id, { title, content, updatedAt: new Date() });
-      setEditingNote(null);
-    } else {
-      if (!selectedCourse) return;
-      addNote({
-        courseId: selectedCourse,
-        title,
-        content,
-      });
-    }
-    setShowEditor(false);
-  };
+    const handleSaveNote = (title: string, content: string) => {
+      const trimmedTitle = title.trim();
+      const trimmedContent = content.trim();
+
+      if (!trimmedTitle || !trimmedContent) {
+        toast.error("Note title and content cannot be empty or just spaces.");
+        return;
+      }
+
+      if (editingNote) {
+        updateNote(editingNote.id, {
+          title: trimmedTitle,
+          content: trimmedContent,
+          updatedAt: new Date(),
+        });
+        toast.success("Note updated successfully.");
+        setEditingNote(null);
+      } else {
+        if (!selectedCourse) return;
+        addNote({
+          courseId: selectedCourse,
+          title: trimmedTitle,
+          content: trimmedContent,
+        });
+        toast.success("Note added successfully.");
+      }
+
+      setShowEditor(false);
+    };
+    
+    
 
   return (
     <div className="space-y-6">
@@ -43,7 +61,7 @@ const NotesPage: React.FC = () => {
         <button
           onClick={() => {
             if (courses.length === 0) {
-              alert("Please add a course first before creating notes");
+              toast.error("Please add a course first before creating notes");
               return;
             }
             setSelectedCourse(courses[0].id);

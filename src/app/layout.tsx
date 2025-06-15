@@ -1,5 +1,6 @@
 import React from "react";
 import { AppProvider } from "./components/AppProvider";
+import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata = {
@@ -15,7 +16,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <AppProvider>{children}</AppProvider>
+        <AppProvider>
+          {" "}
+          <Toaster position="top-center" reverseOrder={false} />
+          {children}
+        </AppProvider>
       </body>
     </html>
   );

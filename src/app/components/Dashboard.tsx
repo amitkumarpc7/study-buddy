@@ -1,6 +1,7 @@
 import React from "react";
 import { BookOpen, FileText, Calendar, CheckCircle } from "lucide-react";
 import { useApp } from "../context/AppContext";
+import Link from "next/link";
 
 const Dashboard: React.FC = () => {
   const { courses, notes, deadlines } = useApp();
@@ -39,48 +40,54 @@ const Dashboard: React.FC = () => {
       </div>
 
       {/* Stats Cards */}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Total Courses
-              </p>
-              <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
-                {courses.length}
-              </p>
+        <Link href="/courses" passHref>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Total Courses
+                </p>
+                <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                  {courses.length}
+                </p>
+              </div>
+              <BookOpen className="text-blue-500" size={24} />
             </div>
-            <BookOpen className="text-blue-500" size={24} />
           </div>
-        </div>
+        </Link>
 
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Total Notes
-              </p>
-              <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
-                {notes.length}
-              </p>
+        <Link href="/notes">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Total Notes
+                </p>
+                <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                  {notes.length}
+                </p>
+              </div>
+              <FileText className="text-green-500" size={24} />
             </div>
-            <FileText className="text-green-500" size={24} />
           </div>
-        </div>
-
-        <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <p className="text-sm text-gray-600 dark:text-gray-300">
-                Pending Deadlines
-              </p>
-              <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
-                {deadlines.filter((d) => !d.completed).length}
-              </p>
+        </Link>
+        <Link href="/deadlines">
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600 dark:text-gray-300">
+                  Pending Deadlines
+                </p>
+                <p className="text-xl md:text-2xl font-bold text-gray-900 dark:text-white">
+                  {deadlines.filter((d) => !d.completed).length}
+                </p>
+              </div>
+              <Calendar className="text-orange-500" size={24} />
             </div>
-            <Calendar className="text-orange-500" size={24} />
           </div>
-        </div>
+        </Link>
 
         <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-4 md:p-6">
           <div className="flex items-center justify-between">

@@ -1,5 +1,6 @@
 
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
 
 interface CourseFormProps {
   course?: {
@@ -31,7 +32,21 @@ const CourseForm: React.FC<CourseFormProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(formData);
+    const trimmedName = formData.name.trim();
+    const trimmedUrl = formData.url.trim();
+    const trimmedDescription = formData.description.trim();
+
+    if (!trimmedName || !trimmedUrl) {
+      toast.error("Course name and URL cannot be empty or just spaces."); 
+      return;
+    }
+    onSave({
+      name: trimmedName,
+      url: trimmedUrl,
+      description: trimmedDescription,
+      progress: formData.progress,
+    });
+    toast.success("Course saved successfully!");
   };
 
   return (
