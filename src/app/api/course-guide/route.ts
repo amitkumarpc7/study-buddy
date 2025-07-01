@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "../../firebaseconfig";
 import {
@@ -82,10 +83,6 @@ Respond ONLY in valid JSON with the structure:
     throw new Error("Failed to parse AI response");
   }
 }
-
-
-
-
 
 // 🔁 POST: Generate & Save Roadmap
 export async function POST(req: NextRequest) {

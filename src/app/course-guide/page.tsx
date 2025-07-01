@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import React, { useState, useEffect } from "react";
 import { useApp } from "../context/AppContext";
@@ -142,8 +143,8 @@ function CourseGuidePage() {
             Suggested Courses
           </h2>
           <p className="text-sm text-gray-600 dark:text-gray-400">
-            <span className="italic font-bold">Note:</span> Some course
-            links may be unavailable or in development — we’re improving this!
+            <span className="italic font-bold">Note:</span> Some course links
+            may be unavailable or in development — we’re improving this!
           </p>
           <ul className="space-y-2">
             {suggestedCourses.map((course, idx) => (
