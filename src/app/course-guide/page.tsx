@@ -209,6 +209,7 @@ function CourseGuidePage() {
                       );
                       setHistory((prev) => prev.filter((h, i) => i !== idx));
                     } catch (e:any) {
+                      console.error(e);
                       setError("Failed to delete entry");
                     }
                   }}
