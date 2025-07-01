@@ -67,6 +67,7 @@ function CourseGuidePage() {
       setHistory((prev) => [data, ...prev]);
       setInput("");
     } catch (err: any) {
+      console.error(err);
       setError(err.message || "Something went wrong");
     } finally {
       setLoading(false);
@@ -97,7 +98,7 @@ function CourseGuidePage() {
 
       <form onSubmit={handleSubmit} className="mb-6">
         <textarea
-          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 resize-none min-h-[80px] transition-colors"
+          className="w-full p-3 rounded border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500 mb-2 resize-none min-h-[80px]"
           placeholder="What do you want to learn? (e.g. 'I want to learn web development from scratch')"
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -207,7 +208,7 @@ function CourseGuidePage() {
                         req.input,
                         req.createdAt as any
                       );
-                      setHistory((prev) => prev.filter((h, i) => i !== idx));
+                      setHistory((prev) => prev.filter((_, i) => i !== idx));
                     } catch (e:any) {
                       console.error(e);
                       setError("Failed to delete entry");
