@@ -208,7 +208,7 @@ function CourseGuidePage() {
                         req.createdAt as any
                       );
                       setHistory((prev) => prev.filter((h, i) => i !== idx));
-                    } catch (e) {
+                    } catch (e:any) {
                       setError("Failed to delete entry");
                     }
                   }}
