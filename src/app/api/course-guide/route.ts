@@ -142,7 +142,8 @@ Respond ONLY in valid JSON with the structure:
     try {
       parsed = JSON.parse(content);
     } catch (err) {
-      console.warn("❌ Initial JSON.parse failed, attempting repair...");
+      
+      console.warn("❌ Initial JSON.parse failed, attempting repair...",err);
       const repaired = jsonrepair(content);
       parsed = JSON.parse(repaired);
     }
