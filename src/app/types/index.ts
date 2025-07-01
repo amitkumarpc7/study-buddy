@@ -56,3 +56,11 @@ export interface AppContextType {
   updateDeadline: (id: string, updates: Partial<Deadline>) => void;
   deleteDeadline: (id: string) => void;
 }
+
+export interface CourseGuideRequest {
+  input: string;
+  roadmap: { step: string; description: string }[];
+  suggestedCourses: { title: string; description: string; url?: string }[];
+  createdAt: Date;
+  userId: string;
+}

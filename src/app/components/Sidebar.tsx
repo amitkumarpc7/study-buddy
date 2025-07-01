@@ -12,6 +12,7 @@ import {
   Moon,
   Sun,
   X,
+  Compass,
 } from "lucide-react";
 
 interface SidebarProps {
@@ -41,6 +42,11 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
       name: "Deadlines",
       href: "/deadlines",
       icon: Calendar,
+    },
+    {
+      name: "Course Guide",
+      href: "/course-guide",
+      icon: Compass,
     },
   ];
 
