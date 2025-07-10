@@ -13,80 +13,8 @@ import {
   doc,
 } from "firebase/firestore";
 
-// async function callOpenRouterAI(input: string) {
-//   const prompt = `You are an expert course advisor. A user wants to learn: "${input}"
+const apiKey = process.env.OPENROUTER_API_KEY;
 
-// 1. Summarize the user's learning goal.
-// 2. Give a clear, step-by-step learning roadmap as an array of steps, each with a step name and description.
-// 3. Suggest 3–5 specific course topics (no platform names), each with:
-//    - title
-//    - description
-//    - a valid working https URL (always include it as 'url', and make sure it’s complete and quoted properly).
-
-// Respond ONLY in valid JSON with the structure:
-// {
-//   summary: string,
-//   roadmap: Array<{ step: string, description: string }>,
-//   suggestedCourses: Array<{ title: string, description: string, url: string }>
-// }`;
-
-//   const res = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-//     method: "POST",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
-//     },
-//     body: JSON.stringify({
-//       model: "mistralai/mistral-small-3.2-24b-instruct:free",
-//       messages: [
-//         { role: "system", content: "You are a helpful course advisor." },
-//         { role: "user", content: prompt },
-//       ],
-//     }),
-//   });
-
-//   if (!res.ok) {
-//     const errorText = await res.text();
-//     throw new Error(`OpenRouter API error: ${res.status} - ${errorText}`);
-//   }
-
-//   let content = (await res.json()).choices?.[0]?.message?.content || "";
-
-//   try {
-//     content = content
-//       .replace(/```json|```/g, "")
-//       .replace(/[^\x20-\x7E\n\r]/g, "")
-//       .replace(/,\s*}/g, "}")
-//       .replace(/,\s*]/g, "]")
-//       .replace(/^\s*"\s*",?\s*$/gm, "");
-
-//     console.log("✅ Cleaned JSON:\n", content);
-
-//     const parsed = JSON.parse(content);
-
-//     if (!parsed.roadmap || !Array.isArray(parsed.suggestedCourses)) {
-//       throw new Error("Missing or malformed roadmap/suggestedCourses");
-//     }
-
-//     parsed.suggestedCourses = parsed.suggestedCourses.filter(
-//       (course: any) =>
-//         course &&
-//         typeof course.title === "string" &&
-//         typeof course.description === "string" &&
-//         typeof course.url === "string" &&
-//         course.url.startsWith("https://")
-//     );
-
-//     return parsed;
-//   } catch (err) {
-//     console.error("🚨 Failed to parse AI response:", err);
-//     console.log("📦 Raw content:\n", content);
-//     throw new Error("Failed to parse AI response");
-//   }
-// }
-
-// 🔁 POST: Generate & Save Roadmap
- 
 
 async function callOpenRouterAI(input: string) {
   const prompt = `You are an expert course advisor. A user wants to learn: "${input}"
@@ -109,10 +37,10 @@ Respond ONLY in valid JSON with the structure:
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+      Authorization: `Bearer ${apiKey}`,
     },
     body: JSON.stringify({
-      model: "mistralai/mistral-small-3.2-24b-instruct:free",
+      model: "mistralai/mistral-7b-instruct:free",
       messages: [
         { role: "system", content: "You are a helpful course advisor." },
         { role: "user", content: prompt },
@@ -142,8 +70,7 @@ Respond ONLY in valid JSON with the structure:
     try {
       parsed = JSON.parse(content);
     } catch (err) {
-      
-      console.warn("❌ Initial JSON.parse failed, attempting repair...",err);
+      console.warn("❌ Initial JSON.parse failed, attempting repair...", err);
       const repaired = jsonrepair(content);
       parsed = JSON.parse(repaired);
     }

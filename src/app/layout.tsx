@@ -4,7 +4,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 
 export const metadata = {
-  title: "Study Buddy",
+  title: "Studdy Buddy",
   description: "Your personal study companion",
 };
 

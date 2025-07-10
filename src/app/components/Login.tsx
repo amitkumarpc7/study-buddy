@@ -87,7 +87,7 @@ const Login: React.FC = () => {
       <div className="w-full max-w-md bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 sm:p-8">
         <div className="text-center mb-6 sm:mb-8">
           <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white">
-            Study Buddy
+            Studdy Buddy
           </h1>
           <p className="text-sm sm:text-base text-gray-600 dark:text-gray-300 mt-2">
             {isLogin ? "Welcome back!" : "Create your account"}

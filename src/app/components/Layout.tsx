@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             isSidebarOpen ? "opacity-0" : "opacity-100"
           }`}
         >
-          Study Buddy
+          Studdy Buddy
         </h1>
 
         <button

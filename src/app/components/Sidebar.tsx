@@ -57,7 +57,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onClose }) => {
       {/* Mobile close button */}
       <div className="flex items-center justify-between p-4 lg:hidden">
         <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
-          Study Buddy
+          Studdy Buddy
         </h2>
         <button
           onClick={onClose}
