@@ -20,58 +20,43 @@ export const FirebaseService = {
     password: string,
     name: string
   ): Promise<AppUser> => {
-    try {
-      const userCredential = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
 
-      // Create user document in Firestore
-      await setDoc(doc(db, "users", user.uid), {
-        email,
-        name,
-        createdAt: new Date().toISOString(),
-      });
+    // Create user document in Firestore
+    await setDoc(doc(db, "users", user.uid), {
+      email,
+      name,
+      createdAt: new Date().toISOString(),
+    });
 
-      return { id: user.uid, email: user.email || email, name };
-    } catch (error: unknown) {
-      const errorObj = error as { message?: string };
-      throw new Error(errorObj.message || "An error occurred");
-    }
+    return { id: user.uid, email: user.email || email, name };
   },
 
   signIn: async (email: string, password: string): Promise<AppUser> => {
-    try {
-      const userCredential = await signInWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
-      const user = userCredential.user;
+    const userCredential = await signInWithEmailAndPassword(
+      auth,
+      email,
+      password
+    );
+    const user = userCredential.user;
 
-      // Get user data from Firestore
-      const userDoc = await getDoc(doc(db, "users", user.uid));
-      if (!userDoc.exists()) {
-        throw new Error("User data not found");
-      }
-
-      const userData = userDoc.data();
-      return { id: user.uid, email: user.email || email, name: userData.name };
-    } catch (error: unknown) {
-      const errorObj = error as { message?: string };
-      throw new Error(errorObj.message || "An error occurred");
+    // Get user data from Firestore
+    const userDoc = await getDoc(doc(db, "users", user.uid));
+    if (!userDoc.exists()) {
+      throw new Error("User data not found");
     }
+
+    const userData = userDoc.data();
+    return { id: user.uid, email: user.email || email, name: userData.name };
   },
 
   signOut: async (): Promise<void> => {
-    try {
-      await signOut(auth);
-    } catch (error: unknown) {
-      const errorObj = error as { message?: string };
-      throw new Error(errorObj.message || "An error occurred");
-    }
+    await signOut(auth);
   },
 
   // Add listener for auth state changes

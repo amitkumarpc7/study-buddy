@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useApp } from "../context/AppContext";
 import { FirebaseService } from "../services/firebase";
+import { FirebaseError } from "firebase/app";
 import { useRouter } from "next/navigation";
 
 const Login: React.FC = () => {
@@ -48,11 +49,12 @@ const Login: React.FC = () => {
         router.push("/dashboard");
       }
     } catch (err: unknown) {
+      console.log("error", err);
       let message = "An error occurred during authentication";
-      const errorObj = err as { code?: string; message?: string };
-      // Handle Firebase auth errors
-      if (errorObj.code) {
-        switch (errorObj.code) {
+
+      if (err instanceof FirebaseError) {
+        console.log("dhljd", err.code);
+        switch (err.code) {
           case "auth/email-already-in-use":
             message = "Email already in use";
             break;
@@ -62,6 +64,7 @@ const Login: React.FC = () => {
           case "auth/weak-password":
             message = "Password should be at least 6 characters";
             break;
+          case "auth/invalid-credential":
           case "auth/user-not-found":
           case "auth/wrong-password":
             message = "Invalid email or password";
@@ -70,12 +73,11 @@ const Login: React.FC = () => {
             message = "Too many attempts. Try again later";
             break;
           default:
-            message = errorObj.message || "Authentication failed";
+            message = err.message || "Authentication failed";
         }
-      } else {
-        message = errorObj.message || "Authentication failed";
+      } else if (err instanceof Error) {
+        message = err.message;
       }
-
       setError(message);
     } finally {
       setLoading(false);
